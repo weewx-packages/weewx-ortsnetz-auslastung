@@ -12,54 +12,54 @@ Examples for such services are:
 * [weewx-snmp](https://github.com/roe-dl/weewx-snmp)
 * [WeeWX-MQTTSubscribe](https://github.com/weewx-mqtt/subscribe)
 
-## Installation instructions
+## Maintained archive
 
-1) clone the repository
+This directory is part of the mirrored upstream repository. The catalog
+archive **0.1.post1** adds a root-level installer and managed module path
+for this WeeWX uploader. Its other repository files are not installed as
+WeeWX services.
+It targets WeeWX `>=5.5.2,<6` and Python `>=3.10,<3.15`.
 
-   ```shell
-   git clone https://github.com/thomaslehmann1234/datenerfassung-ortsnetz-auslastung
-   ```
+## Install
 
-2) run the installer
+Use `weectl` from the Python environment running WeeWX. With stock WeeWX 5,
+install the published archive:
 
-   WeeWX up to version 4.X
+```sh
+weectl extension install https://github.com/weewx-packages/catalog/releases/download/ortsnetz-auslastung/v0.1.post1/ortsnetz-auslastung-0.1.post1.tar.gz --config /path/to/weewx.conf
+```
 
-   ```shell
-   sudo wee_extension --install ~/datenerfassung-ortsnetz-auslastung/weewx-ortsnetz-auslastung
-   ```
+Replace `/path/to/weewx.conf` with your station configuration. You can also
+download that URL and pass the local archive to the same command. Use elevated
+permissions only when your station files require them.
 
-   WeeWX from version 5.0 on and WeeWX packet installation
+The installer adds `user.ortsnetzauslastunguploader.RESTful` to WeeWX's REST
+services. It needs no Python packages beyond WeeWX. Configure the observations
+and device model in `weewx.conf`, not `skin.conf`. For a three-phase source
+using the installer's observation names:
 
-   ```shell
-   sudo weectl extension install ~/datenerfassung-ortsnetz-auslastung/weewx-ortsnetz-auslastung
-   ```
+```ini
+[StdRESTful]
+    [[Ortsnetz-Auslastung]]
+        smartmeter_model = YOUR_METER_MODEL
+        l1_v = pmGridVoltageL1
+        l2_v = pmGridVoltageL2
+        l3_v = pmGridVoltageL3
+        grid_frequency_hz = none
+        plant_capacity_kwp = none
+```
 
-   WeeWX from version 5.0 on and WeeWX pip installation into an virtual environment
+Replace these names with the voltage observations supplied by your collection
+service. It must register the observations' units so WeeWX can convert them to
+volts. Set `l2_v = none` and `l3_v = none` for a single-phase source.
 
-   ```shell
-   source ~/weewx-venv/bin/activate
-   weectl extension install ~/datenerfassung-ortsnetz-auslastung/weewx-ortsnetz-auslastung
-   ```
-   
-3) edit configuration in `skin.conf`
-
-   Add the name of the measuring device to the key `smartmeter_model`
-
-5) restart weewx
-
-   for SysVinit systems:
-
-   ```shell
-   sudo /etc/init.d/weewx stop
-   sudo /etc/init.d/weewx start
-   ```
-
-   for systemd systems:
-
-   ```shell
-   sudo systemctl stop weewx
-   sudo systemctl start weewx
-   ```
+Restart WeeWX yourself and inspect its log after an archive event. Set
+`skip_upload = true` and `log_url = true` first to inspect the JSON without
+posting. Set `skip_upload = false` when ready to submit it. The worker sends
+HTTPS JSON to `https://www.ortsnetz-auslastung.de/v1/measurements`, without an
+API key. It sends your WeeWX station latitude and longitude unless you set
+`latitude` and `longitude` overrides in this section. Check the project's
+[API](../API.md) before publishing location and grid data.
 
 ## Configuration instructions
 
@@ -139,3 +139,15 @@ Project websites of the Ortsnetz-Auslastung project:
 WeeWX:
 * [weather software WeeWX](https://weewx.com)
 * [fetch data from E3/DC converter](https://github.com/roe-dl/weewx-photovoltaics)
+
+## Limits and license
+
+This is an uploader for existing observations, not a meter driver. Uploads
+follow archive events with a minimum 300-second interval. Absent phases use
+`-1`; optional frequency and PV values use Hz, kWp and kWh after conversion.
+`log_url` also logs the payload, including coordinates. The service does not
+create a separate timer or cron job.
+
+Copyright 2026 Johanna Karen Roedenbeck. The uploader is GNU GPLv3 or later.
+The surrounding project also includes MIT-licensed work; see the
+[root license notes](../README.md#lizenz-und-herkunft).

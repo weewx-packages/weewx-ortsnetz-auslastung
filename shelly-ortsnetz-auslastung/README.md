@@ -18,7 +18,7 @@ Der klassische Shelly 3EM (Gen1) kann keine Shelly Scripts ausführen und wird v
 
 1. Öffne die Weboberfläche des Shelly und wechsle zu **Scripts**.
 2. Erstelle ein neues Script, beispielsweise `ortsnetz-auslastung`.
-3. Kopiere den Inhalt von [`ortsnetz-auslastung.js`](ortsnetz-auslastung.js) in den Editor.
+3. Kopiere den Inhalt von [`pro-3EM-ortsnetz-auslastung.js`](pro-3EM-ortsnetz-auslastung.js) in den Editor.
 4. Passe im Block `CONFIG` mindestens `latitude` und `longitude` an. Die API-Adresse kann normalerweise unverändert bleiben. Details weiter unten > Standortkoordinaten finden
 5. Speichere das Script, starte es und aktiviere **Run on startup**.
 

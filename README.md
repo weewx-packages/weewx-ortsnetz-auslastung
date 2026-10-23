@@ -2,6 +2,13 @@
 
 Dieses Repository bündelt Integrationen, die lokale Netzspannungsmessungen an die API von [ortsnetz-auslastung.de](https://www.ortsnetz-auslastung.de/) senden. Sie übertragen Spannungswerte, einen Zeitstempel und einen ungefähren Standort. Es ist kein API-Schlüssel erforderlich.
 
+Dieses Repository spiegelt den [Upstream-Quellstand](https://github.com/thomaslehmann1234/datenerfassung-ortsnetz-auslastung).
+Für WeeWX ist das gepflegte Katalogarchiv **0.1.post1** vorgesehen. Es enthält
+einen Installer und den Uploader am Archivroot. Dieser installiert nur das
+WeeWX-Modul; das Archiv enthält zusätzlich den übrigen Repository-Quellstand. Der gespiegelte Defaultbranch und das reparierte Archiv
+können voneinander abweichen. Der feste Installationsbefehl steht in der
+[WeeWX-Anleitung](weewx-ortsnetz-auslastung/README.md#install).
+
 ## Schnellnavigation
 
 - [Shelly Pro 3EM und Pro EM50](#shelly-pro-3em-und-pro-em50)
@@ -18,7 +25,7 @@ Dieses Repository bündelt Integrationen, die lokale Netzspannungsmessungen an d
 - [openHAB](#openhab)
 - [Symcon](#symcon)
 - [Fronius](#fronius)
-- [Siemens PAC Energiemessgeräte](#siemens-pac-energiemessgerate)
+- [Siemens PAC Energiemessgeräte](#siemens-pac-energiemessgeräte)
 - [USV mit NUT](#usv-mit-nut)
 - [WeeWX](#weewx)
 - [smartWB Wallbox](#smartwb-wallbox)
@@ -44,9 +51,9 @@ Dieses Repository bündelt Integrationen, die lokale Netzspannungsmessungen an d
 | [openHAB](#openhab) | Vorhandene Smart-Meter-Items | openHAB 4+ / JavaScript | HTTPS | openHAB-Installationen |
 | [Symcon](#symcon) | Vorhandene Spannungsvariablen | Symcon-Modul (PHP) | HTTPS | Symcon-Installationen |
 | [Fronius](#fronius) | Fronius Smart Meter über die Solar API | Python / cron | HTTPS | Fronius-Wechselrichter mit Smart Meter |
-| [Siemens PAC Energiemessgeräte](#siemens-pac-energiemessgerate) | REST-API des Messgeräts | Node.js / Docker | HTTPS | Siemens PAC 4200/4220 und ähnliche Energiemessgeräte |
+| [Siemens PAC Energiemessgeräte](#siemens-pac-energiemessgeräte) | REST-API des Messgeräts | Node.js / Docker | HTTPS | Siemens PAC 4200/4220 und ähnliche Energiemessgeräte |
 | [USV mit NUT](#usv-mit-nut) | USV-Eingangsspannung über NUT | Shell / cron | HTTPS | NUT-kompatible einphasige USVs |
-| [WeeWX](#weewx) | Vorhandene Sensoren | Python / systemd | HTTPS | WeeWX mit Zusatzmodul
+| [WeeWX](#weewx) | Vorhandene Sensoren | WeeWX-Dienst | HTTPS | WeeWX mit Zusatzmodul |
 | [smartWB Wallbox](#smartwb-wallbox) | HTTP-API der Wallbox (Spannungen L1–L3) | Python / cron / systemd-Timer | HTTPS | smartWB / EVSE-WiFi 2.0 mit Stromzähler |
 
 ## Shelly Pro 3EM und Pro EM50
@@ -243,3 +250,11 @@ Bei erfolgreicher Annahme liefert der Service `202 Accepted`.
 ## Koordinaten
 
 Koordinaten lassen sich über [OpenStreetMap](https://www.openstreetmap.org/) bestimmen: Ort suchen, mit der rechten Maustaste auf die Karte klicken und **„Abfrage starten“** auswählen.
+
+## Lizenz und Herkunft
+
+Die [MIT-Lizenz](LICENSE) nennt Thomas Lehmann als Urheber des Gesamtprojekts.
+Der [WeeWX-Uploader](weewx-ortsnetz-auslastung/bin/user/ortsnetzauslastunguploader.py)
+von Johanna Karen Roedenbeck steht unter GPLv3 oder später. Die jeweiligen Lizenzhinweise stehen in den mitgelieferten Quellen. Hinweise und Lizenzen anderer Integrationen bleiben
+bei deren Quellen. Die jeweiligen Laufzeiten und Anleitungen in diesem
+Repository gelten für die dort genannten Geräte, nicht als WeeWX-Treiberliste.
